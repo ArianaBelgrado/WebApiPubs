@@ -18,35 +18,48 @@ namespace WebApiPubs.Controllers
         }
         // Get
         [HttpGet]
-        public ActionResult<IEnumerable<Sales>> GetClinica()
+        public ActionResult<IEnumerable<Stores>> GetAll()
         {
-            return context.Sales.ToList();
+            return context.Stores.ToList();
+        }
+
+
+        //get por id 
+        [HttpGet("{id}")]
+        public ActionResult<Stores> GetbyId(string id)
+        {
+            Stores Stores = (from p in context.Stores
+                             where p.StorId == id
+                              select p).SingleOrDefault();
+
+            return Stores;
+
         }
         //UPDATE
         //PUT api/store/{id}
         [HttpPut("{id}")]
-        public ActionResult Put(string id, Sales Sales)
+        public ActionResult Put(string id, Stores Stores)
         {
-            if (id != Sales.StorId)
+            if (id != Stores.StorId)
             {
                 return BadRequest();
             }
 
-            context.Entry(Sales).State = EntityState.Modified;
+            context.Entry(Stores).State = EntityState.Modified;
             context.SaveChanges();
             return Ok();
         }
 
         //INSERT
         [HttpPost]
-        public ActionResult Post(Sales Sales)
+        public ActionResult Post(Stores stores)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            context.Sales.Add(Sales);
+            context.Stores.Add(stores);
             context.SaveChanges();
             return Ok();
         }
@@ -54,21 +67,21 @@ namespace WebApiPubs.Controllers
         //DELETE
         //DELETE api/store/{id}
         [HttpDelete("{id}")]
-        public ActionResult<Sales> Delete(string id)
+        public ActionResult<Stores> Delete(string id)
         {
-            var Sales = (from c in context.Sales
-                             where c.StorId == id
+            var Stores = (from c in context.Stores
+                          where c.StorId == id
                              select c).SingleOrDefault();
 
-            if (Sales == null)
+            if (Stores == null)
             {
                 return NotFound();
             }
 
-            context.Sales.Remove(Sales);
+            context.Stores.Remove(Stores);
             context.SaveChanges();
 
-            return Sales;
+            return Stores;
         }
     }
 }
