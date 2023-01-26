@@ -23,6 +23,7 @@ namespace WebApiPubs.Controllers
             return context.Publishers.ToList();
         }
 
+        //get por id 
         [HttpGet("{id}")]
         public ActionResult<Publishers> GetbyId(string id)
         {
@@ -50,6 +51,7 @@ namespace WebApiPubs.Controllers
         }
 
         //INSERT
+        // post
         [HttpPost]
         public ActionResult Post(Publishers publisher)
         {
